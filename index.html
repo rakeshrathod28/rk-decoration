@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RK Decoration | Birthday, Wedding & Event Decoration in Kalaburagi</title>
+  <meta name="description" content="RK Decoration – book birthday, anniversary, wedding, seemantha, haldi and housewarming decoration in Kalaburagi online. Affordable packages, easy UPI booking.">
+  <meta property="og:title" content="RK Decoration – Event Decoration in Kalaburagi">
+  <meta property="og:description" content="Book beautiful decorations online for any celebration in Kalaburagi.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎈</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">🎈 <span data-cfg="businessName">RK Decoration</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a href="track.html" class="needs-db">Track Booking</a>
+        <a href="#book" class="btn btn-sm">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>Beautiful Decorations for Every Celebration in <span data-cfg="city">Kalaburagi</span></h1>
+      <p data-cfg="tagline"></p>
+      <div class="hero-actions">
+        <a href="#book" class="btn btn-gold">Book Your Decoration</a>
+        <a data-cfg-href="whatsapp" target="_blank" rel="noopener" class="btn btn-outline">Chat on WhatsApp</a>
+      </div>
+      <ul class="hero-points">
+        <li>✅ Affordable packages</li>
+        <li>✅ On-time setup</li>
+        <li>✅ Easy UPI advance</li>
+        <li>✅ Custom themes</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">Our Services & Packages</h2>
+      <p class="section-sub">Choose a service to see packages. Prices are starting prices – final quote depends on venue and customisation.</p>
+      <div id="servicesGrid" class="grid grid-3"></div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Our Work</h2>
+      <div id="galleryFilters" class="filters"></div>
+      <div id="galleryGrid" class="grid grid-4"></div>
+    </div>
+  </section>
+
+  <section id="book" class="section">
+    <div class="container">
+      <h2 class="section-title">Book Your Decoration</h2>
+      <p class="section-sub">Fill the form – you'll get a Booking ID instantly. Pay a small advance by UPI to block your date.</p>
+
+      <div class="book-layout">
+        <form id="bookingForm" class="card form" novalidate>
+          <div class="form-grid">
+            <label>Your name *<input name="name" required maxlength="80" autocomplete="name"></label>
+            <label>Mobile number *<input name="phone" required type="tel" maxlength="18" placeholder="10-digit mobile" autocomplete="tel"></label>
+            <label>Email (optional)<input name="email" type="email" maxlength="120" autocomplete="email"></label>
+            <label>Event type *<select name="service" required></select></label>
+            <label>Package *<select name="package" required></select></label>
+            <label>Number of guests<input name="guests" type="number" min="0" max="10000"></label>
+            <label>Event date *<input name="event_date" type="date" required></label>
+            <label>Preferred time *<select name="event_time" required></select></label>
+          </div>
+          <p id="dateMsg" class="field-msg"></p>
+          <label>Venue address in Kalaburagi *<textarea name="venue" required rows="2" maxlength="300" placeholder="House / hall name, area, landmark"></textarea></label>
+
+          <fieldset>
+            <legend>Add-ons (optional)</legend>
+            <div id="addonsList" class="addons"></div>
+          </fieldset>
+
+          <label>Special requests / theme ideas<textarea name="notes" rows="3" maxlength="1000" placeholder="Colours, theme, cartoon character, name to display..."></textarea></label>
+          <label class="check"><input type="checkbox" name="agree" required> I agree to the advance payment &amp; cancellation policy (see FAQ).</label>
+          <button type="submit" class="btn btn-gold btn-block" id="submitBtn">Confirm Booking Request</button>
+          <p id="formError" class="field-msg err"></p>
+        </form>
+
+        <aside class="card summary" id="summary">
+          <h3>Booking Summary</h3>
+          <div id="summaryBody"></div>
+        </aside>
+      </div>
+
+      <div id="bookingSuccess" class="card success hidden"></div>
+    </div>
+  </section>
+
+  <section id="reviews" class="section alt">
+    <div class="container">
+      <h2 class="section-title">Happy Customers</h2>
+      <div id="reviewsGrid" class="grid grid-3"></div>
+      <p class="center"><a href="#" id="reviewLink" class="btn btn-outline" target="_blank" rel="noopener">Write a review on WhatsApp</a></p>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container narrow">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div id="faqList"></div>
+    </div>
+  </section>
+
+  <section id="contact" class="section alt">
+    <div class="container contact-grid">
+      <div>
+        <h2 class="section-title left">Contact Us</h2>
+        <p>📍 <span data-cfg="address"></span></p>
+        <p>📞 <a data-cfg-href="phone"><span data-cfg="phone"></span></a></p>
+        <p>✉️ <a data-cfg-href="email"><span data-cfg="email"></span></a></p>
+        <p>🕘 <span data-cfg="workingHours"></span></p>
+        <div class="socials">
+          <a data-cfg-href="instagram" target="_blank" rel="noopener">Instagram</a>
+          <a data-cfg-href="facebook" target="_blank" rel="noopener">Facebook</a>
+          <a data-cfg-href="youtube" target="_blank" rel="noopener">YouTube</a>
+        </div>
+        <div class="hero-actions">
+          <a data-cfg-href="phone" class="btn">Call Now</a>
+          <a data-cfg-href="whatsapp" target="_blank" rel="noopener" class="btn btn-gold">WhatsApp</a>
+        </div>
+      </div>
+      <iframe id="mapFrame" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> <span data-cfg="businessName"></span>, <span data-cfg="city"></span>. All rights reserved.</p>
+      <p class="needs-db"><a href="track.html">Track booking</a> · <a href="admin.html">Admin</a></p>
+    </div>
+  </footer>
+
+  <a data-cfg-href="whatsapp" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

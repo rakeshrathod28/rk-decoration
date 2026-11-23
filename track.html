@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Booking | RK Decoration</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎈</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">🎈 <span data-cfg="businessName">RK Decoration</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <nav class="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#book" class="btn btn-sm">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container narrow">
+      <h1 class="section-title">Track Your Booking</h1>
+      <form id="trackForm" class="card form">
+        <div class="form-grid">
+          <label>Booking ID<input name="code" required placeholder="e.g. RKAB12CD" maxlength="12"></label>
+          <label>Mobile number<input name="phone" required type="tel" maxlength="18" placeholder="Mobile used for booking"></label>
+        </div>
+        <button class="btn btn-gold btn-block" type="submit">Check Status</button>
+        <p id="trackError" class="field-msg err"></p>
+      </form>
+      <div id="trackResult"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="container"><p>© <span id="year"></span> <span data-cfg="businessName"></span></p></div></footer>
+  <a data-cfg-href="whatsapp" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    (function () {
+      const RK = window.RK, esc = RK.escapeHtml;
+      RK.applyConfig();
+      const form = document.getElementById("trackForm");
+      const out = document.getElementById("trackResult");
+      const err = document.getElementById("trackError");
+      if (window.RKDB.whatsappOnly) {
+        form.outerHTML = '<div class="card center"><p>Online tracking is coming soon. Please check your booking status on WhatsApp.</p>' +
+          '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + RK.waLink("Hi, I want to check my booking status. Booking ID: ") + '">Ask on WhatsApp</a></div>';
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      if (params.get("id")) form.code.value = params.get("id");
+
+      const statusText = {
+        pending: "We received your request. We will call you to confirm after verifying the advance.",
+        confirmed: "Your booking is confirmed. Our team will reach the venue on time.",
+        completed: "Event completed. Thank you for choosing us! Please share your review on WhatsApp.",
+        cancelled: "This booking was cancelled. Contact us for help."
+      };
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        err.textContent = "";
+        out.innerHTML = "";
+        if (!RK.isValidPhone(form.phone.value)) { err.textContent = "Enter a valid 10-digit mobile number."; return; }
+        try {
+          const b = await window.RKDB.trackBooking(form.code.value, form.phone.value);
+          if (!b) { err.textContent = "No booking found. Check the Booking ID and mobile number."; return; }
+          const showPay = b.payment_status === "unpaid" && b.status !== "cancelled" && !b.payment_ref;
+          out.innerHTML = `
+            <div class="card">
+              <h2>Booking ${esc(b.booking_code)}</h2>
+              <p>Status: ${RK.statusBadge(b.status)} &nbsp; Payment: ${RK.statusBadge(b.payment_status)}</p>
+              <p>${esc(statusText[b.status] || "")}</p>
+              <p><strong>${esc(b.event_type)}</strong> – ${esc(b.package)}<br>
+              📅 ${RK.formatDate(b.event_date)}, ${esc(b.event_time)}<br>📍 ${esc(b.venue)}</p>
+              <p>Total: <strong>${RK.inr(b.total_amount)}</strong> · Advance: <strong>${RK.inr(b.advance_amount)}</strong></p>
+              ${b.payment_ref && b.payment_status === "unpaid" ? `<p class="ok-text">Payment reference ${esc(b.payment_ref)} submitted – awaiting verification.</p>` : ""}
+              ${showPay ? RK.paymentBox(b) : ""}
+            </div>`;
+          RK.bindUtrForms(out, form.phone.value);
+        } catch (ex) {
+          console.error(ex);
+          err.textContent = "Something went wrong. Please try again.";
+        }
+      });
+      if (params.get("id")) form.phone.focus();
+    })();
+  </script>
+</body>
+</html>
